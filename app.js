@@ -3,10 +3,34 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const debug = require('debug')('quiz-app-demo:app.js');
 const glob = require('glob');
+const sqlite3 = require('sqlite3');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
+const migrate = require('./app/database/migrate');
+
+// DB
+const db = new sqlite3.Database('app/database/database.sqlite', function(error) {
+  if (error) {
+    return debug(error.message);
+  }
+  debug('Connected to the database');
+});
+
+migrate(db);
+
+process.on('SIGINT', function() {
+  db.close(function(error) {
+    if (error) {
+      return debug(error.message);
+    }
+    debug('Database closed');
+    process.exit();
+  });
+});
 
 const app = express();
 
