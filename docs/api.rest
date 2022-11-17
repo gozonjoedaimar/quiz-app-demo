@@ -1,0 +1,17 @@
+### Using: @ext:rest REST Client VSCode extension
+@apphost = {{$dotenv APP_HOST}}
+@appport = {{$dotenv APP_PORT}}
+
+### DEBUG
+GET http://{{apphost}}:{{appport}}/api/sample/index
+
+### Users
+
+# /api/user
+GET http://{{apphost}}:{{appport}}/api/user
+
+
+### Edit
+
+# /api/edit
+GET http://{{apphost}}:{{appport}}/api/edit
