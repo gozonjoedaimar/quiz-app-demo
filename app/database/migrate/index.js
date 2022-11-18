@@ -68,12 +68,12 @@ function migrate(db) {
     db.run(`CREATE TABLE IF NOT EXISTS question (${
       "id INTEGER PRIMARY KEY, " +
       "quiz_id INTEGER NOT NULL, " +
-      "question TEXT NOT NULL, " +
+      "text TEXT NOT NULL, " +
       "type INTEGER NOT NULL, " +
-      "answers INTEGER NOT NULL, " +
+      "choices INTEGER NOT NULL, " +
       "FOREIGN KEY (quiz_id) REFERENCES quiz (id), " +
       "FOREIGN KEY (type) REFERENCES question_type (id), " +
-      "CHECK ( LENGTH (question) > 0 AND ( answers > 0 AND answers <= 10 ) )"
+      "CHECK ( LENGTH (text) > 0 AND ( choices > 0 AND choices <= 10 ) )"
     })`);
 
     // Choice table

@@ -107,7 +107,7 @@ function count_questions(callback) {
  */
 const count_question_choices = () => new Promise(function(resolve, reject) {
   if (typeof _data.id !== 'undefined') {
-    let query = `SELECT q.id, q.question, COUNT(c.is_correct) AS correct_answers ${
+    let query = `SELECT q.id, q.text, COUNT(c.is_correct) AS correct_answers ${
       `FROM question q ` +
       `LEFT JOIN choice c ` +
       `ON c.question_id = q.id ` +

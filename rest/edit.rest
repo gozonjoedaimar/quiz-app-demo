@@ -31,4 +31,54 @@ Content-Type: application/json
 ### Publish quiz
 PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/{{quiz_id}}
 
+### Add question
+// @name addQuestion
+POST http://{{apphost}}:{{appport}}/api/edit/quiz/{{quiz_id}}/question
+Content-Type: application/json
+
+{
+  "question": "Question 1",
+  "choices": 5,
+  // type: Refer to question_type table in database
+  "type": 1
+}
+
+###
+
+@question_id = {{addQuestion.response.body.lastID}}
+
+### Update question
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/{{quiz_id}}/question/{{question_id}}
+Content-Type: application/json
+
+{
+  "question": "Question 1 v2",
+  "choices": 4,
+  // type: Refer to question_type table in database
+  "type": 1
+}
+
+### Add choice
+// @name addChoice
+POST  http://{{apphost}}:{{appport}}/api/edit/quiz/{{quiz_id}}/question/{{question_id}}/choice
+Content-Type: application/json
+
+{
+  "text": "Choice 1",
+  "is_correct": 0
+}
+
+###
+
+@choice_id = {{addChoice.response.body.lastID}}
+
+### Update choice
+PUT  http://{{apphost}}:{{appport}}/api/edit/quiz/{{quiz_id}}/question/{{question_id}}/choice/{{choice_id}}
+Content-Type: application/json
+
+{
+  "text": "Choice 1 v2",
+  "is_correct": 0
+}
+
 ###
