@@ -62,11 +62,11 @@ Note: most response may contain the `changes` property. It indicates if the upda
 /api/edit/quiz/publish/:quiz_id
 
     # request
-    PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/1
+    PUT http://localhost:3000/api/edit/quiz/publish/1
 
     # response
     {
-      "quiz_id": "11",
+      "quiz_id": "1",
       "changes": 1
     }
 
