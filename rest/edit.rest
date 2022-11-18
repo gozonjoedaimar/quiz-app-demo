@@ -53,7 +53,7 @@ Content-Type: application/json
 
 {
   "question": "Question 1 v2",
-  "choices": 4,
+  "choices": 5,
   // type: Refer to question_type table in database
   "type": 1
 }

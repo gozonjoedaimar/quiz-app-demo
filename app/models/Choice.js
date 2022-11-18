@@ -45,11 +45,46 @@ function save(callback) {
       saveData.run(_data.text, _data.is_correct, callback) // use this.lastID and this.changes in callback
     }
     else {
-      let saveData = _db.prepare(`INSERT INTO choice (question_id,text,is_correct) VALUES (?,?,?)`);
-      saveData.run(_data.question_id, _data.text, _data.is_correct, callback) // use this.lastID and this.changes in callback
+      check_add().then(function() {
+        let saveData = _db.prepare(`INSERT INTO choice (question_id,text,is_correct) VALUES (?,?,?)`);
+        saveData.run(_data.question_id, _data.text, _data.is_correct, callback) // use this.lastID and this.changes in callback
+      })
+      .catch(function(e) {
+        console.log(e);
+        callback.call({ changes: 0, reason: 'Limit reached' });
+      })
     }
   });
 }
+
+/**
+ * Check add
+ */
+const check_add = () => new Promise(function(resolve, reject) {
+  const query = `SELECT q.id, q.text, q.choices, COUNT(c.id) count ${
+    `FROM question q ` +
+    `LEFT JOIN choice c ` +
+    `ON q.id = c.question_id ` +
+    `WHERE q.id = ${_data.question_id} ` +
+    `GROUP BY q.id `
+  }`;
+  db.get(query, function(err, row) {
+    if (err) {
+      reject(err)
+    }
+    if (row.id) {
+      if (row.choices > row.count) {
+        resolve()
+      }
+      else{
+        reject()
+      }
+    }
+    else {
+      reject('no data')
+    }
+  })
+});
 
 /** Clear model data */
 function clean() {

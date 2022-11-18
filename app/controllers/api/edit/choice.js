@@ -18,7 +18,8 @@ const choice = local_require('app/models/Choice.js');
         console.log(error.message);
         return res.json({ changes: 0, error: { message: "There was a server error" } })
       }
-      res.json({...params, ...body, lastID: _self.lastID, changes: _self.changes});
+      let reason = _self.reason ? _self.reason: _self.changes < 1 ? "Data does not meet the requirements": undefined;
+      res.json({...params, ...body, lastID: _self.lastID, changes: _self.changes, reason});
     })
   ;
 }
