@@ -53,11 +53,85 @@ function save(callback) {
  */
 function publish(callback) {
   _data.permalink_code = code();
-  _db.serialize(function() {
-      let saveData = _db.prepare(`UPDATE quiz SET status = 1, permalink = "${_data.permalink_code}" WHERE id = ${_data.id} AND created_by = ${_data.userID} AND status = 0`);
-      saveData.run(_data.title, _data.questions, callback) // use this.lastID and this.changes in callback
+  count_question_choices().then(function(no_correct_answers) {
+    if (no_correct_answers > 0) {
+      let reason = 'all questions must have an answer';
+      console.log(reason);
+      callback.call({ changes: 0, reason });
+    }
+    else {
+      _db.serialize(function() {
+        let saveData = _db.prepare(`UPDATE quiz SET status = 1, permalink = "${_data.permalink_code}" WHERE id = ${_data.id} AND created_by = ${_data.userID} AND status = 0`);
+        saveData.run(_data.title, _data.questions, callback) // use this.lastID and this.changes in callback
+    });
+    }
   });
 }
+
+/**
+ * Count questions
+ */
+function count_questions(callback) {
+  if (typeof _data.id !== 'undefined') {
+    _db.get(`SELECT COUNT(id) as count FROM question WHERE quiz_id = ${_data.id}`, function(err, row) {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(row);
+      callback(row.count);
+    })
+  }
+  return callback(0);
+}
+
+/**
+ * Count correct choices
+ * @param {Number} question_id
+ * @param {Function} callback
+ */
+ function count_choices(question_id, callback) {
+  if (typeof _data.id !== 'undefined') {
+    _db.get(`SELECT COUNT(id) as count FROM choice WHERE question_id = ${question_id} AND is_correct = 1`, function(err, row) {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(row);
+      callback(row.count);
+    })
+  }
+  return callback(0);
+}
+
+/**
+ * List questions and count correct answers [Edit/Publish checking]
+ */
+const count_question_choices = () => new Promise(function(resolve, reject) {
+  if (typeof _data.id !== 'undefined') {
+    let query = `SELECT q.id, q.question, COUNT(c.is_correct) AS correct_answers ${
+      `FROM question q ` +
+      `LEFT JOIN choice c ` +
+      `ON c.question_id = q.id ` +
+      `AND c.is_correct = 1 ` +
+      `WHERE q.quiz_id = ? ` +
+      `GROUP BY q.id`
+    }`;
+    const no_correct_answer = [];
+    _db.each(query, _data.id, function(err, row){
+      console.log({t: row.correct_answers, x: row.correct_answers == 0});
+      if(row.correct_answers == 0) no_correct_answer.push(row)
+    }, function(err, rows) {
+      if (err) {
+        reject(err);
+      }
+      // console.log({r:rows});
+      // console.log({a:no_correct_answer.length});
+      let no_correct_answers = (rows < 1) ? 999 : no_correct_answer.length;
+      resolve(no_correct_answers);
+    })
+    return;
+  }
+  reject("no id set");
+});
 
 /** Clear model data */
 function clean() {

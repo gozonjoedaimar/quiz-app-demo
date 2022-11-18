@@ -65,8 +65,9 @@ function update (req, res) {
         console.log(error.message);
         return  res.json({ changes: 0, error: {message: "There was a server error"} });
       }
-      /** __self.changes = 0 | 1 ~~ fail | success */
-      res.json({...params, changes: _self.changes, permalink: quiz.getData('permalink_code')});
+      let reason = _self.reason ? _self.reason: _self.changes < 1 ? "Data does not meet the requirements": undefined;
+      /** _self.changes = 0 | 1 ~~ fail | success */
+      res.json({...params, changes: _self.changes, reason, permalink: quiz.getData('permalink_code')});
     })
   ;
 }

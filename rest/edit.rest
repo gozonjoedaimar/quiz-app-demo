@@ -6,6 +6,7 @@
 GET http://{{apphost}}:{{appport}}/api/edit
 
 ### Add quiz
+// @name addQuiz
 POST http://{{apphost}}:{{appport}}/api/edit/quiz
 Content-Type: application/json
 
@@ -14,16 +15,20 @@ Content-Type: application/json
   "questions": 5
 }
 
+###
+
+@quiz_id = {{addQuiz.response.body.lastID}}
+
 ### Update quiz
-PUT http://{{apphost}}:{{appport}}/api/edit/quiz/1
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/{{quiz_id}}
 Content-Type: application/json
 
 {
   "title": "Quiz 1 v2",
-  "questions": 8
+  "questions": 9
 }
 
 ### Publish quiz
-PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/1
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/{{quiz_id}}
 
 ###

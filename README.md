@@ -72,4 +72,4 @@ PUT /api/edit/quiz/publish/:quiz_id
 
 ## Dev
 
-Sample/Test request can be found at `./rest` folder and can be checked via [Rest Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) VS Code extension
+Sample/Test request can be found at `./rest` folder and can be checked via [Rest Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) VS Code extension. Also note that named requests or requests with `// @name requestName` should be run first before running the remaining requests.
