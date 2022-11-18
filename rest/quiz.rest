@@ -3,4 +3,7 @@
 @appport = {{$dotenv APP_PORT}}
 
 ### DEBUG
-GET http://{{apphost}}:{{appport}}/api/quiz
+GET http://{{apphost}}:{{appport}}/api/quiz/q0we98r7we90r87qwer09q8we7r
+
+### Get quiz info
+GET http://{{apphost}}:{{appport}}/api/quiz/q0we98r7we90r87qwer09q8we7r

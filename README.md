@@ -19,7 +19,7 @@ Note: most response may contain the `changes` property. It indicates if the upda
 
 #### Add quiz
 
-/api/edit/quiz
+POST /api/edit/quiz
 
     # request and body 
     POST http://localhost:3000/api/edit/quiz
@@ -39,7 +39,7 @@ Note: most response may contain the `changes` property. It indicates if the upda
 
 #### Update quiz
 
-/api/edit/quiz/:quiz_id
+PUT /api/edit/quiz/:quiz_id
 
     # request and body
     PUT http://localhost:3000/api/edit/quiz/1
@@ -59,7 +59,7 @@ Note: most response may contain the `changes` property. It indicates if the upda
 
 #### Publish quiz
 
-/api/edit/quiz/publish/:quiz_id
+PUT /api/edit/quiz/publish/:quiz_id
 
     # request
     PUT http://localhost:3000/api/edit/quiz/publish/1

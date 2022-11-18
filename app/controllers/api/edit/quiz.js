@@ -66,7 +66,7 @@ function update (req, res) {
         return  res.json({ changes: 0, error: {message: "There was a server error"} });
       }
       /** __self.changes = 0 | 1 ~~ fail | success */
-      res.json({...params, changes: _self.changes});
+      res.json({...params, changes: _self.changes, permalink: quiz.getData('permalink_code')});
     })
   ;
 }

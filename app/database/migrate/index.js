@@ -35,7 +35,7 @@ function migrate(db) {
       "title TEXT NOT NULL, " +
       "status INTEGER DEFAULT 0, " +
       "items INTEGER NOT NULL, " +
-      "permalink TEXT, " +
+      "permalink TEXT UNIQUE, " +
       "FOREIGN KEY (created_by) REFERENCES user (id), " +
       "CHECK ( items > 0 AND items <= 20 )"
     })`);

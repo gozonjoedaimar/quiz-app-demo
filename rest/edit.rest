@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### Update quiz
-PUT http://{{apphost}}:{{appport}}/api/edit/quiz/11
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/1
 Content-Type: application/json
 
 {
@@ -24,6 +24,6 @@ Content-Type: application/json
 }
 
 ### Publish quiz
-PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/11
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/1
 
 ###
