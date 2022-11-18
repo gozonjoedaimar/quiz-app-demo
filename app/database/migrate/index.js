@@ -8,6 +8,7 @@ const { Database } = require('sqlite3');
  */
 function migrate(db) {
   db.serialize(function () {
+    db.get("PRAGMA foreign_keys = ON");
     // User table
     db.run(`CREATE TABLE IF NOT EXISTS user (${
       "id INTEGER PRIMARY KEY, " +

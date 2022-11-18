@@ -4,3 +4,26 @@
 
 ### DEBUG
 GET http://{{apphost}}:{{appport}}/api/edit
+
+### Add quiz
+POST http://{{apphost}}:{{appport}}/api/edit/quiz
+Content-Type: application/json
+
+{
+  "title": "Quiz 2",
+  "questions": 5
+}
+
+### Update quiz
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/11
+Content-Type: application/json
+
+{
+  "title": "Quiz 1 v2",
+  "questions": 8
+}
+
+### Publish quiz
+PUT http://{{apphost}}:{{appport}}/api/edit/quiz/publish/11
+
+###

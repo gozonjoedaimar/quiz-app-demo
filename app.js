@@ -12,8 +12,12 @@ const usersRouter = require('./routes/users');
 
 const migrate = require('./app/database/migrate');
 
+global.local_require = function(local_path) {
+  return require(path.resolve(__dirname, local_path));
+};
+
 // DB
-const db = new sqlite3.Database('app/database/database.sqlite', function(error) {
+global.db = new sqlite3.Database('app/database/database.sqlite', function(error) {
   if (error) {
     return debug(error.message);
   }
@@ -25,7 +29,8 @@ migrate(db);
 process.on('SIGINT', function() {
   db.close(function(error) {
     if (error) {
-      return debug(error.message);
+      debug(error.message);
+      return process.exit();
     }
     debug('Database closed');
     process.exit();
@@ -43,6 +48,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// TODO: auth id
+app.use(function(req, res, next){
+  req.userID = 1;
+  next();
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
